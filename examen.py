@@ -1,3 +1,4 @@
+import time as t
 # Ome Henk is sinds mei op pensioen, maar weet niet echt goed wat gedaan met zijn vrije tijd.
 # Op raad van zijn kleinkinderen leert hij programmeren in Python als nieuwe hobby!
 # Henk zou graag een tool maken om activiteiten te plannen voor/met zijn kleinkinderen.
@@ -44,9 +45,6 @@ def activity_participants(group, min_age, max_age, cost):
     return activity
 
 
-
-
-
 ########################
 ## DEEL 2 (na de les) ##
 ########################
@@ -57,13 +55,16 @@ def print_group(group):
     members = []
     for x in group:
         members.append(x['Name'])
-    if members == 0:
-        return "There are no members!"
-    elif members == 1:
-        return "The only member in the group is: " + members[0]
-    else:
-        return "The members are: " + members[0] + "," + members[1] + "," + members[2] + "," + members[3]
 
+    if len(members) <= 0:
+        print("There are 0 members!")
+    elif len(members) <= 1:
+        print("The only member is " + members[-1])
+    else:
+        print("The members of this group are: ", end="")
+        for j in range(0, len(members) - 1):
+            print(members[j] + ", ", end="")
+        print("and,", members[len(members) - 1] + ".")
 
 # Deze functie zal de grootste uitdaging zijn. Henk heeft op het internet iets gelezen over de 'time-bibliotheek'.
 # Henk wil dat de leeftijden van zijn kinderen niet hardcoded in het systeem zitten, maar dat hun geboortedatum
@@ -76,7 +77,10 @@ def print_group(group):
 
 
 def next_birthday(group):
-    return NotImplementedError
+    data = t.localtime().tm_mday, t.localtime().tm_mon
+    for x in group:
+        if x['Age'] >= data:
+            return x
 
 
 def main():
@@ -101,6 +105,22 @@ def main():
     print("The guests that can activity_participante", activity_participants(family, 5, 99, 25))
     print("The guests that can activity_participante", activity_participants(family, 15, 99, 24))
     print_group(family)
+    print_group(family[0:0])
+    print_group(family[0:1])
+    print_group(family[2:3])
+
+    # Change age to birthday
+    Alice['Age'] = (22, 6, 1999)
+    Bob['Age'] = (20, 6, 2000)
+    Charlie['Age'] = (25, 6, 2005)
+    David['Age'] = (14, 8, 2006)
+    Edward['Age'] = (27, 9, 2012)
+    Fabian['Age'] = (25, 10, 1993)
+    Gerald['Age'] = (12, 10, 2003)
+    Harvey['Age'] = (14, 11, 2003)
+    Ike['Age'] = (29, 7, 2016)
+
+    print(next_birthday(family))
 
     ### YOUR TEST CODE ENDS HERE ###
     return
